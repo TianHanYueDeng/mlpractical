@@ -159,11 +159,9 @@ class MNISTDataProvider(DataProvider):
             to zero except for the column corresponding to the correct class
             which is equal to one.
         """
-        K = 10
-        targets = np.zeros((len(int_targets), K))
-        for i, label in enumerate(int_targets):
-            targets[i][label] = 1
-        return targets
+        one_of_k_targets = np.zeros((int_targets.shape[0], self.num_classes))
+        one_of_k_targets[range(int_targets.shape[0]), int_targets] = 1
+        return one_of_k_targets
 
 
 class MetOfficeDataProvider(DataProvider):
