@@ -11,10 +11,11 @@ Some layers will have learnable parameters and so will additionally define
 methods for getting and setting parameter and calculating gradients with
 respect to the layer parameters.
 """
-
+import numpy
 import numpy as np
 import mlp.initialisers as init
 from mlp import DEFAULT_SEED
+
 
 class Layer(object):
     """Abstract class defining the interface for a layer."""
@@ -95,6 +96,7 @@ class LayerWithParameters(Layer):
         """
         raise NotImplementedError()
 
+
 class StochasticLayerWithParameters(Layer):
     """Specialised layer which uses a stochastic forward propagation."""
 
@@ -124,6 +126,7 @@ class StochasticLayerWithParameters(Layer):
             outputs: Array of layer outputs of shape (batch_size, output_dim).
         """
         raise NotImplementedError()
+
     def grads_wrt_params(self, inputs, grads_wrt_outputs):
         """Calculates gradients with respect to layer parameters.
 
@@ -165,6 +168,7 @@ class StochasticLayerWithParameters(Layer):
                 in the corresponding order to what is returned by `get_params`.
         """
         raise NotImplementedError()
+
 
 class StochasticLayer(Layer):
     """Specialised layer which uses a stochastic forward propagation."""
@@ -329,6 +333,7 @@ class AffineLayer(LayerWithParameters):
         return 'AffineLayer(input_dim={0}, output_dim={1})'.format(
             self.input_dim, self.output_dim)
 
+
 class SigmoidLayer(Layer):
     """Layer implementing an element-wise logistic sigmoid transformation."""
 
@@ -368,6 +373,7 @@ class SigmoidLayer(Layer):
     def __repr__(self):
         return 'SigmoidLayer'
 
+
 class ReluLayer(Layer):
     """Layer implementing an element-wise rectified linear transformation."""
 
@@ -406,8 +412,10 @@ class ReluLayer(Layer):
     def __repr__(self):
         return 'ReluLayer'
 
+
 class LeakyReluLayer(Layer):
     """Layer implementing an element-wise leaky rectified linear transformation."""
+
     def __init__(self, alpha=0.01):
         self.alpha = alpha
 
@@ -429,7 +437,6 @@ class LeakyReluLayer(Layer):
 
     def __repr__(self):
         return 'LeakyReluLayer'
-
 
 
 class ParametricReluLayer(LayerWithParameters):
@@ -518,10 +525,11 @@ class TanhLayer(Layer):
             Array of gradients with respect to the layer inputs of shape
             (batch_size, input_dim).
         """
-        return (1. - outputs**2) * grads_wrt_outputs
+        return (1. - outputs ** 2) * grads_wrt_outputs
 
     def __repr__(self):
         return 'TanhLayer'
+
 
 class SoftmaxLayer(Layer):
     """Layer implementing a softmax transformation."""
@@ -567,6 +575,7 @@ class SoftmaxLayer(Layer):
     def __repr__(self):
         return 'SoftmaxLayer'
 
+
 class RadialBasisFunctionLayer(Layer):
     """Layer implementing projection to a grid of radial basis functions."""
 
@@ -582,10 +591,10 @@ class RadialBasisFunctionLayer(Layer):
                 tile basis functions in grid across. For example for a 2D input
                 space spanning [0, 1] x [0, 1] use intervals=[[0, 1], [0, 1]].
         """
-        num_basis = grid_dim**len(intervals)
+        num_basis = grid_dim ** len(intervals)
         self.centres = np.array(np.meshgrid(*[
             np.linspace(low, high, grid_dim) for (low, high) in intervals])
-        ).reshape((len(intervals), -1))
+                                ).reshape((len(intervals), -1))
         self.scales = np.array([
             [(high - low) * 1. / grid_dim] for (low, high) in intervals])
 
@@ -598,8 +607,8 @@ class RadialBasisFunctionLayer(Layer):
         Returns:
             outputs: Array of layer outputs of shape (batch_size, output_dim).
         """
-        return np.exp(-(inputs[..., None] - self.centres[None, ...])**2 /
-                      self.scales**2).reshape((inputs.shape[0], -1))
+        return np.exp(-(inputs[..., None] - self.centres[None, ...]) ** 2 /
+                      self.scales ** 2).reshape((inputs.shape[0], -1))
 
     def bprop(self, inputs, outputs, grads_wrt_outputs):
         """Back propagates gradients through a layer.
@@ -620,12 +629,13 @@ class RadialBasisFunctionLayer(Layer):
         """
         num_basis = self.centres.shape[1]
         return -2 * (
-            ((inputs[..., None] - self.centres[None, ...]) / self.scales**2) *
-            grads_wrt_outputs.reshape((inputs.shape[0], -1, num_basis))
+                ((inputs[..., None] - self.centres[None, ...]) / self.scales ** 2) *
+                grads_wrt_outputs.reshape((inputs.shape[0], -1, num_basis))
         ).sum(-1)
 
     def __repr__(self):
         return 'RadialBasisFunctionLayer(grid_dim={0})'.format(self.grid_dim)
+
 
 class DropoutLayer(StochasticLayer):
     """Layer which stochastically drops input dimensions in its output."""
@@ -661,7 +671,17 @@ class DropoutLayer(StochasticLayer):
         Returns:
             outputs: Array of layer outputs of shape (batch_size, output_dim).
         """
-        raise NotImplementedError
+        if self.share_across_batch:
+            if self.rng is not None:
+                mask = self.rng.random(size=inputs.shape[1:]) < self.incl_prob
+            else:
+                mask = np.random.random(size=inputs.shape[1:]) < self.incl_prob
+        else:
+            if self.rng is not None:
+                mask = self.rng.random(size=inputs.shape) < self.incl_prob
+            else:
+                mask = np.random.random(size=inputs.shape) < self.incl_prob
+        return inputs*mask
 
     def bprop(self, inputs, outputs, grads_wrt_outputs):
         """Back propagates gradients through a layer.
@@ -681,10 +701,12 @@ class DropoutLayer(StochasticLayer):
             Array of gradients with respect to the layer inputs of shape
             (batch_size, input_dim).
         """
-        raise NotImplementedError
+        mask = inputs==outputs
+        return grads_wrt_outputs * mask
 
     def __repr__(self):
         return 'DropoutLayer(incl_prob={0:.1f})'.format(self.incl_prob)
+
 
 class ReshapeLayer(Layer):
     """Layer which reshapes dimensions of inputs."""
