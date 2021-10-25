@@ -173,11 +173,11 @@ $p$, and $\odot$ denotes the element-wise multiplication.
 
 At inference time, stochasticity is not desired, so no neurons
 are dropped. To account for the change in expectations of the
-output values, we scale them by the inverse of the dropout rate
+output values, we scale them down by the inclusion rate
 $p$:
 
 \begin{align}
-    y' &= y/p\
+    y' &= y*p\
 \end{align}
 
 As there is no nonlinear calculation involved, the backward
