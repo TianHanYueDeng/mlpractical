@@ -57,15 +57,15 @@ class Optimiser(object):
         respect to all the model parameters and then updates the model
         parameters according to the learning rule.
         """
-        with self.tqdm_progress(total=self.train_dataset.num_batches) as train_progress_bar:
-            train_progress_bar.set_description("Ep Prog")
-            for inputs_batch, targets_batch in self.train_dataset:
-                activations = self.model.fprop(inputs_batch)
-                grads_wrt_outputs = self.error.grad(activations[-1], targets_batch)
-                grads_wrt_params = self.model.grads_wrt_params(
-                    activations, grads_wrt_outputs)
-                self.learning_rule.update_params(grads_wrt_params)
-                train_progress_bar.update(1)
+        # with self.tqdm_progress(total=self.train_dataset.num_batches) as train_progress_bar:
+        #     train_progress_bar.set_description("Ep Prog")
+        for inputs_batch, targets_batch in self.train_dataset:
+            activations = self.model.fprop(inputs_batch)
+            grads_wrt_outputs = self.error.grad(activations[-1], targets_batch)
+            grads_wrt_params = self.model.grads_wrt_params(
+                activations, grads_wrt_outputs)
+            self.learning_rule.update_params(grads_wrt_params)
+                # train_progress_bar.update(1)
 
     def eval_monitors(self, dataset, label):
         """Evaluates the monitors for the given dataset.
@@ -139,7 +139,7 @@ class Optimiser(object):
                 epoch_time = time.time()- start_time
                 if epoch % stats_interval == 0:
                     stats = self.get_epoch_stats()
-                    self.log_stats(epoch, epoch_time, stats)
+                    # self.log_stats(epoch, epoch_time, stats)
                     run_stats.append(list(stats.values()))
                 progress_bar.update(1)
         finish_train_time = time.time()
