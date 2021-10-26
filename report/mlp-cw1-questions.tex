@@ -28,13 +28,15 @@
 
 %% Question 2:
 \newcommand{\questionTwo} {
-\youranswer{Question 2 - Summarise the effect increasing width and depth of the architecture had on overfitting}
-\youranswer{Question 2 - can generally make the neural network more easily to be overfitting}
+\youranswer{Question 2 - can generally make the neural network more easily to be overfitting or even make the overfitting more serious}
 }
 
 %% Question 3:
 \newcommand{\questionThree} {
-\youranswer{Question 3 - Summarise what your results show you about the effect of the tested approaches on overfitting and the performance of the trained model}
+\youranswer{although decreasing the keep rate or increasing the L1, L2 penalty cofficient can effectively reduce the generalization gap,
+it could also do harm to the model's performance on the validation set, for the reason that those actions can ignore or deemphasize
+the information cells carry and cause very serious underftting. We should be careful about the selection of drop rate and penalty cofficient
+to prevent such things from happenning.}
 }
 
 %% Question 4:
@@ -68,16 +70,18 @@ the overfitting actually occur at nearly epoch 10 according to these Figures.
 
 %% Question 8:
 \newcommand{\questionEight} {
-\youranswer{The generalization gap increases with the increasement of hidden units in the final epoch in contrast to the slight changes in validation accuracy,
- which indicts that the adding more hidden units may not improve the final performance but make the overfitting more serious in this case. From the Figure 2, we
+\youranswer{The generalization gap increases with the increasing of hidden units in the final epoch in contrast to the slight changes in validation accuracy,
+ which indicts that the adding more hidden units may not improve the final performance but make the overfitting more serious in this case. From the Figure \ref{fig:width}, we
  can also observe that actually the best result on validation set of network with width 64 and 128 already reaches at nearly epoch 10. However, after this point,
- their performance starts to drop along the epoch number and the generalization gap also increases. But for the network with width 32, we can see that its performance
- on the validation set actually becomes better along the epoch number.}
+ their performance starts to drop along the epoch number and the generalization gap also increases. In addition, the wider the network is,
+the more rapidly you will find it increases the error on the validation set. But for the network with width 32, we can see that its performance
+ on the validation set actually becomes better along the epoch number. In Table \ref{tab:width_exp}, based on the validation accuracy, the wider networks
+outperform the narrower one to a small extent, but suffer more generalization gap according to their width.}
 }
 
 %% Question 9:
 \newcommand{\questionNine} {
-\youranswer{The width of the network could affect extent of overfitting in a nearly linear way. Generally speaking, adding more hidden units could make the network
+\youranswer{The width of the network could affect extent of overfitting in a consistent way. Generally speaking, adding more hidden units could make the network
 more likely to be overfitting and make the overfitting more serious. However, in spite of the more serious overfitting conditions for width 64 and 128 in this case,
 they finally get a slightly higher accuary than the width 32. So, could we say that a wider network will be a better choice in this case?
 Based on the previous knowledge, the wider the network, the stronger fitting ability it will have, it would have a better result than narrow networks if the overfitting does not
@@ -88,51 +92,54 @@ So, for a wider network, we should carefully choose the epoch number to avoid ov
 
 %% Question 10:
 \newcommand{\questionTen} {
-\youranswer{The curves are very close to the each other in the same category. That is, they have the nearly the same tendency and the similar value on the traing set or validation set
-according to the same epoch number. In general, they all keep increasing their performance on the training set along epoch. However, in terms of their performance on the validation set,
-they reach a maximum performance at nearly epoch 10, and then keep dropping along the epoch, which indicates the overfitting occurs. In short, we can not observe obvious change according
-to the change of network depth.}
+\youranswer{The generalization gap increases with the increasing of hidden layers in the final epoch in contrast to the slight changes in validation accuracy,
+ which indicts that the adding more hidden layers may not improve the final performance but make the overfitting more serious in this case. From the Figure \ref{fig:depth}, we
+ can also observe that actually the best result on validation set of networks already reaches at nearly epoch 10. However, after this point,
+ their performance starts to drop along the epoch number and the generalization gap also increases. In addition, the deeper the network is,
+the more rapidly you will find it increases the error on the validation set.  In Table \ref{tab:depth_exps}, based on the validation accuracy, the deeper networks
+outperform the shallower one to a small extent, but suffer more generalization gap according to their depth.}
 }
 
 %% Question 11:
 \newcommand{\questionEleven} {
-\youranswer{According to the observed result, we actually could not draw conclusions about the network depth since all the curves shown in Figure 2 behave in a similar way.
-The only difference we could get is that, the model with different depth could have slightly different error on the training set. But we acctually do not care their performance
-on the training set. Based on the previous lecture, adding more hidden layers could have the similar effect as adding more hidden units, which is better fitting ability
-but with the larger chance to get overfitting. However, this experiment does not prove our knowledge in this case because the varying layers do not bring obvious change in
-The Figure 2. The possible reason for this may be that the width of 128 in the hidden layers could easily cause overfitting, making the effect of varying depth not so obvious
-in this case. If we change the width of hidden layers to 32, we may spot the changes and draw conclusions more easily.}
+\youranswer{According to the observed result, the depth of the network could affect extent of overfitting in a consistent way. Generally speaking, adding more hidden layers could
+make the network the overfitting more serious because the generalization gap increases along the depth in this case.
+Based on the previous knowledge, the deeper the network is, the stronger fitting ability it will have, it would have a better result than shallower networks if the overfitting does not
+happen. But it has a higher chance to get overfitting. However, from the previous Figure \ref{fig:width}, we already know that the line for depth 1 overfit early epoch 10.
+Here we could not draw the conclusion that depth is related to the chance of being overfitting since all curves on the Figure \ref{fig:depth} start to be overfitting at nearly
+the same point. However, we do draw the conclusion that extent of overfitting can be consistently related to number of hidden layer because
+the generalization gap increases with the depth increases according to \ref{tab:depth_exps}}
 }
 
 %% Question 12:
 \newcommand{\questionTwelve} {
 \youranswer{From the expriments mentioned above, we can draw that adding width and adding depth can similar effect. That is, the model will have the better fitting ability, but
-suffer more possibility to be overfitting. In addition, if the overfitting does not occur, wider and deeper neural networks could generally have a better performance
-on the validation set than narrower and shallower networks before overfitting. However, after getting overfitting, they could even have a worse performance than the
-the narrower and shallower ones. Based on the ideas listed above, we should carefully tune the width and depth of the networks, otherwise they could easily get overfitting when
-the epoch number is large.}
+suffer more possibility to be overfitting and could make the overfitting worse. In addition, if the overfitting does not occur, wider and deeper neural networks could generally have a better performance
+on the validation set than narrower and shallower networks. However, after getting overfitting, they could even have a worse performance than the
+the narrower and shallower ones because their performance could drop rapidly along the epoch. Based on the ideas listed above,
+    we should carefully tune the width and depth of the networks, otherwise they could easily get overfitting when the epoch number is large.}
 }
 
 %% Question 13:
 \newcommand{\questionThirteen} {
-\youranswer{L1 and L2 regularization mean that we will finally add a term related to the neural network weight $\bw$ when computing the lost function, with the intention of making
-the network not so flexible by putting some constraints on $\bw$. In particular, the L1 regularization uses first power term to deal with $\bw$. It adds $\lambda_1\sum_w{\lvert \bw_i \rvert}$
-to the lost function. The  L1 regularization uses quadratic term to deal with $\bw$. It adds $\lambda_2\sum_w \bw_i^2 \rvert$to the lost function. In the 2 formulas mentioned above, the
+\youranswer{L1 and L2 regularization mean that we will finally add a term related to the neural network weight $w$ when computing the lost function, with the intention of making
+the network not so flexible by putting some constraints on $w$. In particular, the L1 regularization uses first power term to deal with $w$. It adds $\lambda_1\sum_w{\lvert w_i \rvert}$
+to the lost function. The  L1 regularization uses quadratic term to deal with $w$. It adds $\lambda_2\sum_w w_i^2 \rvert$to the lost function. In the 2 formulas mentioned above, the
 parameters $\lambda_1$ and $\lambda_2$ are the hyper-parameter we need to set by ourself according to specific training conditions. These terms mentioned
 above will be counted into the final lost  function, which the neural network tries to minimize. In addition, these terms will also take in the part of computing gradients.}
 }
 
 %% Question 14:
 \newcommand{\questionFourteen} {
-\youranswer{Since the L1 regularization and L2 regularization methods both add a term related to the weight $\bw$, the neural network will try to minimize the new lost function
-    (original lost function + regularization term). Since the regularization term involves weight $\bw$, the neural network then tend not to use the larger $\bw$ to fit the data
-more flexible, but rather to use smaller $\bw$ to smoothly fit the data, resulting in a better generalization to the unseen data. Thus these regularizations can alleviate overfitting
-to some extent. L1 regularization uses first power term, its gradients would be $\lambda_1 sign_{+-}(w_i)$ for the weight $\bw_i$, while $2\lambda_2w_i$ for L2 regularization.
-As we can see in the two gradients, the L1 regularization punishes the weight $\bw_i$ in a constant way while the L2 regularization punishes the weight $\bw_i$ in relationship with $\bw_i$.
-We can image that, after several epoches, the $\bw_i$  could become 0 under L1 regularization, but may not become 0 under L2 regularization beacause the gradients is related to  $\bw_i$ value.
-As a result, L1 regularization may set some $\bw_i$ to 0, whose process could be viewed as feature selection by removing some useless $\bw_i$. It finally alleviates overfitting by removing some features.
+\youranswer{Since the L1 regularization and L2 regularization methods both add a term related to the weight $w$, the neural network will try to minimize the new lost function
+    (original lost function + regularization term). Because the regularization term involves weight $w$, the neural network then tend not to use the larger $w$ to fit the data
+more flexible, but rather to use smaller $w$ to smoothly fit the data, resulting in a better generalization to the unseen data. Thus these regularizations can alleviate overfitting
+to some extent. L1 regularization uses first power term, its gradients would be $\lambda_1 sign_{+-}(w_i)$ for the weight $w_i$, while $2\lambda_2w_i$ for L2 regularization.
+As we can see in the two gradients, the L1 regularization punishes the weight $w_i$ in a constant way while the L2 regularization punishes the weight $w_i$ in relationship with $w_i$.
+We can image that, after several epoches, the $w_i$  could become 0 under L1 regularization, but may not become 0 under L2 regularization beacause the gradients is related to  $w_i$ value.
+As a result, L1 regularization may set some $w_i$ to 0, whose process could be viewed as feature selection by removing some useless $w_i$. It finally alleviates overfitting by removing some features.
 L2 reularization tries to achieve a balance between the original lost function and L2 term. And finally it can also alleviate overfitting by making the fitting line smoother since these
-$\bw_i$ will not be too deviated from 0 under L2 regularization.}
+$w_i$ will not be too deviated from 0 under L2 regularization.}
 }
 
 %% Question 15:
@@ -142,22 +149,34 @@ $\bw_i$ will not be too deviated from 0 under L2 regularization.}
 
 %% Question 16:
 \newcommand{\questionSixteen} {
-\youranswer{it has not previously been demonstrated to actually perform model averaging for deep architectures}
+\youranswer{it has not previously been demonstrated to actually perform model averaging for deep architectures. In addition, the author wants to prove that
+rather than using dropout as a slight performance enhancement applied to arbitrary models, the best performance may be obtained by directly
+designing a model that enhances dropout’s abilities as a model averaging technique.}
 }
 
 %% Question 17:
 \newcommand{\questionSeventeen} {
 \youranswer{The Dropout is compatible with Maxout. Based on the standard practice, \cite{goodfellow2013maxout} found that the combination of Maxout and Dropout can
-make a more robust network and tend to achieve great performance. By principle, different dropout masks tend to put inputs far enough to escape the local region surrounding
-the clean inputs where the hidden units are linear. Maxout trained with dropout may have  the identity of the maximal filter in each unit change relatively rarely as the dropout mask changes. Net-
-works of linear operations and max(·) may learn to exploit dropout’s approximate model averaging technique well.}
+make a more robust network and tend to achieve great performance. By principle, Dropout can encourage Maxout to larger linear region. Because the varying Dropout mask
+frequently changes linear parts the Maxout can use. However, since the Maxout tries to learn the same thing no matter which cells are droped, it can finally be
+trained to have the characteristic of being stable against the varying mask. Since the Maxout shows as a combination of lines by maximizing serveral linear functions,
+    it encourges the Dropout to do accurate model averaging in deeper achitecture, in constrast to the curved activation functions which may cause inaccurate model averaging.
+What's more, the combination of them suffer less probability to saturate, suggesting that maxout
+better propagates varying information downward to the lower layers and helps dropout training to better resemble bagging for the lower-layer parameters. }
 }
 
 %% Question 18:
 \newcommand{\questionEighteen} {
-\youranswer{Question 18 - Give an overview of the experiment setup in \cite{goodfellow2013maxout} and analyse it from the point of view of how convincing their conclusions are
-}
-}
+\youranswer{Then the author evaluated the its performance on 4 benchmark datasets(MNIST, CIFAR-10, CIFAR-100, SVHN) and found that the combination
+of Maxout and Dropout can achieve rather lower test error compared to other method combinations. Afterwards, the author compared Maxout with rectfiers by
+running a large cross-validation experiment and found that the Maxout generally achieves lower validation error. To prove that dropout is indeed performing
+model averaging, even in multilayer networks, and that it is more accurate in the case of maxout, the author conducted experiment on computing the test error
+on MINIST classification related to model averaging and KL divergence between model averaging strategies, compared with Tanh activation, which proves his ideas.
+Finally, he also set up serveral experiments to the optimization ability for Maxout, and found that Maxout achieved better performance in network with increasing
+depth and is less likely to saturate compared with rectifier, based on which the author draws the conclusions that maxout allows training deeper
+networks and better propagating varying information downward to the lower layers. These conclusions mentioned above are all based on actual experiments results, which
+are followed by some principle reasoning from the author. Generally speaking, These conclusions are solid and convincing since the author offers both statistics and
+corresponding principles.}
 
 %% Question 19:
 \newcommand{\questionNineteen} {
@@ -223,7 +242,7 @@ works of linear operations and max(·) may learn to exploit dropout’s approxim
 \begin{figure*}[t]
     \centering
     \begin{subfigure}{.3\linewidth}
-        \includegraphics[width=\linewidth]{figures/empty_dropout_plot.png}
+        \includegraphics[width=\linewidth]{figures/metrics_by_dropout_rate.pdf}
         \caption{Metrics by dropout rate}
         \label{fig:dropoutrates}
     \end{subfigure}
@@ -259,9 +278,9 @@ Question Table 1 - Fill in Table 1 with the results from your experiments varyin
     \toprule
         \# hidden units & val. acc. & generalization gap \\
     \midrule
-         32            &     79.73\%    &             0.18        \\
-         64            &     80.70\%     &            0.53       \\
-         128           &     81.67\%     &            1.44        \\
+         32            &     0.785    &             0.148        \\
+         64            &     0.811     &            0.339       \\
+         128           &     0.808     &            0.782        \\
     \bottomrule
     \end{tabular}
     \caption{Validation accuracy (\%) and generalization gap (in terms of cross-entropy error) for varying network widths on the EMNIST dataset.}
@@ -281,9 +300,9 @@ Question Table 2 - Fill in Table 2 with the results from your experiments varyin
     \toprule
         \# hidden layers & val. acc. & generalization gap \\
     \midrule
-         1               &      81.58\%      &       1.41             \\
-         2               &      82.08\%      &        1.59            \\
-         3               &      82.27\%      &        1.28           \\
+         1               &      0.805      &        0.798             \\
+         2               &      0.815      &        1.429            \\
+         3               &      0.821      &        1.565           \\
     \bottomrule
     \end{tabular}
     \caption{Validation accuracy (\%) and generalization gap (in terms of cross-entropy error) for varying network depths on the EMNIST dataset.}
@@ -307,25 +326,25 @@ Question Table 3 - Fill in Table 3 with the results from your experiments varyin
         Baseline &       lr=0.001, hidden layers = 3, hidden units = 128                &           82.5 \%           &        1.30           \\
     \midrule
         \multirow{5}*{Dropout}
-                 & 0.1                   &           2.67\%          &          5.30e-3           \\
-                 & 0.3                   &           52.81\%          &         0.03           \\
-                 & 0.5                   &          76.08\%           &         0.07           \\
-                 & 0.7                   &           83.15\%          &         0.11          \\
-                 & 0.9                   &          85.52\%           &         0.24          \\
+                 & 0.1                   &           0.107          &         0.006           \\
+                 & 0.3                   &           0.685          &         0.044           \\
+                 & 0.5                   &            0.797           &         0.073           \\
+                 & 0.7                   &           0.840          &         0.118          \\
+                 & 0.9                   &           0.849           &         0.276          \\
     \midrule
         \multirow{5}*{L1 penalty}
-                 & 1e-5                   &         82.98\%            &        0.74           \\
-                 & 1e-4                   &         85.36\%            &        0.10           \\
-                 & 1e-3                   &         75.65\%            &        0.02          \\
-                 & 1e-2                   &          1.96\%           &         4.46e-4          \\
-                 & 1e-1                   &          2.01\%           &         4.87e-4          \\
+                 & 1e-5                   &         0.836            &        0.783           \\
+                 & 1e-4                   &         0.851            &        0.096           \\
+                 & 1e-3                   &         0.764            &        0.019          \\
+                 & 1e-2                   &         0.020           &         5.990e-4          \\
+                 & 1e-1                   &         0.020           &         3.998e-4          \\
     \midrule
         \multirow{5}*{L2 penalty}
-                 & 1e-5                   &         82.68\%          &         1.09          \\
-                 & 1e-4                   &         83.42\%            &       0.50            \\
-                 & 1e-3                   &         85.09\%            &       0.08           \\
-                 & 1e-2                   &         76.68\%           &        0.01           \\
-                 & 1e-1                   &          1.98\%           &        4.4e-4           \\
+                 & 1e-5                   &         0.820          &         1.273          \\
+                 & 1e-4                   &         0.835            &       0.517            \\
+                 & 1e-3                   &         0.853            &       0.065           \\
+                 & 1e-2                   &         0.755           &        0.008           \\
+                 & 1e-1                   &         0.020           &        5.241e-4           \\
     \midrule
         \multirow{8}*{Combined}
                  & for example 0.95, L1 1e-6  &                     &                   \\
