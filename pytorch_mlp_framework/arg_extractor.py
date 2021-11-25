@@ -48,6 +48,8 @@ def get_args():
     parser.add_argument('--block_type', type=str, default='conv_block',
                         help='Type of convolutional blocks to use in our network '
                              '(This argument will be useful in running experiments to debug your network)')
+    parser.add_argument('--lr', type=float, default=1e-3,
+                        help='Learning rate when training the network')
     args = parser.parse_args()
     print(args)
     return args
