@@ -37,13 +37,22 @@ test_data = data_providers.CIFAR100(root='data', set_name='test',
                  transform=transform_test,
                  download=True)  # initialize our rngs using the argument set seed
 
-train_data_loader = DataLoader(train_data, batch_size=args.batch_size, shuffle=True, num_workers=4)
-val_data_loader = DataLoader(val_data, batch_size=args.batch_size, shuffle=True, num_workers=4)
-test_data_loader = DataLoader(test_data, batch_size=args.batch_size, shuffle=True, num_workers=4)
+train_data_loader = DataLoader(train_data, batch_size=args.batch_size, shuffle=True)
+val_data_loader = DataLoader(val_data, batch_size=args.batch_size, shuffle=True)
+test_data_loader = DataLoader(test_data, batch_size=args.batch_size, shuffle=True)
 
 if args.block_type == 'conv_block':
+    processing_block_type = ConvolutionalProcessingBlock
+    dim_reduction_block_type = ConvolutionalDimensionalityReductionBlock
+elif args.block_type == 'conv_block_rc':
+    processing_block_type = ConvolutionalProcessingBlockRC
+    dim_reduction_block_type = ConvolutionalDimensionalityReductionBlockRC
+elif args.block_type == 'conv_block_bn':
     processing_block_type = ConvolutionalProcessingBlockBN
     dim_reduction_block_type = ConvolutionalDimensionalityReductionBlockBN
+elif args.block_type == 'conv_block_bn_rc':
+    processing_block_type = ConvolutionalProcessingBlockBNAndRC
+    dim_reduction_block_type = ConvolutionalDimensionalityReductionBlockBNAndRC
 elif args.block_type == 'empty_block':
     processing_block_type = EmptyBlock
     dim_reduction_block_type = EmptyBlock
@@ -66,4 +75,5 @@ conv_experiment = ExperimentBuilder(network_model=custom_conv_net,
                                     continue_from_epoch=args.continue_from_epoch,
                                     train_data=train_data_loader, val_data=val_data_loader,
                                     test_data=test_data_loader)  # build an experiment object
-experiment_metrics, test_metrics = conv_experiment.run_experiment()  # run experiment and return experiment metrics
+if __name__ == '__main__':
+    experiment_metrics, test_metrics = conv_experiment.run_experiment()  # run experiment and return experiment metrics
